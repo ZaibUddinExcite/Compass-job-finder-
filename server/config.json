@@ -1,0 +1,21 @@
+{
+  "greenhouse": [
+    { "name": "Algolia", "boardToken": "algolia" }
+  ],
+  "lever": [
+    { "name": "Lever (demo board, always available)", "site": "leverdemo" }
+  ],
+  "ashby": [
+    { "name": "Ashby", "jobBoardName": "Ashby" }
+  ],
+  "adzuna": {
+    "enabled": true,
+    "country": "gb",
+    "what": "graduate engineer",
+    "where": "",
+    "resultsPerPage": 20,
+    "maxPages": 1
+  },
+  "refreshIntervalMinutes": 360,
+  "maxPostingAgeDays": 365
+}

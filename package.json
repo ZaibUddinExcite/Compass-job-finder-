@@ -1,0 +1,19 @@
+{
+  "name": "compass",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-first job opportunity navigation for graduates.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "start:static-only": "node scripts/serve.mjs",
+    "test": "node --test"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
+  }
+}

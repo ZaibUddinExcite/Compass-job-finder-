@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b3b36">
+    <meta name="description" content="A private, evidence-led workspace for deciding which jobs deserve your time.">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="src/styles.css">
+    <title>Compass — make a better call</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <header class="site-header">
+      <a class="brand" href="#workspace" aria-label="Compass home">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span>Compass</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#workspace">Workspace</a>
+        <a href="#tracker">Tracker</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-heading">
+        <p class="eyebrow">A calmer way to job search</p>
+        <h1 id="hero-heading">Decide before you spend the time.</h1>
+        <p class="lede">Paste a role or a lead. We separate the facts from the unknowns: whether it is feasible, what you can evidence, how much work the application may take, and how much attention it has drawn.</p>
+        <p class="hero-note">Nothing leaves this browser in this preview. You remain in control of every application.</p>
+      </section>
+
+      <section id="discover" class="panel discover-panel" aria-labelledby="discover-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Found automatically</p>
+            <h2 id="discover-heading">Discovered roles</h2>
+          </div>
+          <button id="refresh-discover" class="secondary-button" type="button">Refresh</button>
+        </div>
+        <p id="discover-status" class="muted" hidden></p>
+        <div class="discover-filter">
+          <label for="fit-threshold">Minimum match: <span id="fit-threshold-value">show all</span></label>
+          <input type="range" id="fit-threshold" min="0" max="100" step="5" value="0">
+          <label for="show-count">Show up to</label>
+          <select id="show-count">
+            <option value="20">20</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="999999">All</option>
+          </select>
+          <label for="posted-within">Posted within</label>
+          <select id="posted-within">
+            <option value="7">1 week</option>
+            <option value="30">1 month</option>
+            <option value="120" selected>4 months</option>
+            <option value="365">1 year</option>
+            <option value="999999">Any time</option>
+          </select>
+        </div>
+        <input id="discover-search" type="search" class="discover-search" placeholder="Search titles, companies, keywords…">
+        <p id="discover-empty" class="empty-state">No discovered roles yet. Run <code>npm start</code> (not the static-only server) with <code>server/config.json</code> configured — see <code>server/README.md</code>.</p>
+        <div id="discover-list" class="discover-list" hidden></div>
+      </section>
+
+      <section id="workspace" class="workspace" aria-label="Job decision workspace">
+        <div class="panel profile-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Your evidence</p>
+              <h2>Set up your profile</h2>
+            </div>
+            <span class="local-badge">Saved locally</span>
+          </div>
+          <p class="muted">Keep it short. You can add more detail later; the app will ask instead of making up an answer.</p>
+          <div class="cv-upload">
+            <label class="text-button" for="cv-file">Fill this in from a CV instead (PDF or .txt/.md)</label>
+            <input id="cv-file" type="file" accept=".pdf,.txt,.md,text/plain,text/markdown,application/pdf">
+            <span id="cv-status" class="muted" hidden></span>
+          </div>
+          <form id="profile-form" class="form-grid" autocomplete="off">
+            <label>
+              Name or label
+              <input name="name" maxlength="80" placeholder="e.g. Sam">
+            </label>
+            <label>
+              Degree
+              <input name="degree" maxlength="120" placeholder="e.g. MSc Human-Computer Interaction">
+            </label>
+            <label>
+              Specialism
+              <input name="specialism" maxlength="120" placeholder="e.g. accessibility research">
+            </label>
+            <label>
+              Relevant experience (years)
+              <input name="experienceYears" type="number" min="0" max="60" step="0.5" placeholder="e.g. 1.5">
+            </label>
+            <label>
+              Your location
+              <input name="location" maxlength="120" placeholder="e.g. Southampton, UK">
+            </label>
+            <label>
+              Remote preference
+              <select name="workplacePreference">
+                <option value="any">No preference</option>
+                <option value="remote_only">Remote only</option>
+              </select>
+            </label>
+            <label class="wide">
+              Career summary (optional — a few sentences in your own words, or filled in from your CV)
+              <textarea name="summary" rows="3" maxlength="800" placeholder="e.g. Embedded systems graduate with a focus on edge AI and robotics; comfortable across firmware, computer vision, and cloud integration."></textarea>
+            </label>
+            <label class="wide">
+              Skills you can evidence
+              <textarea name="skills" rows="2" maxlength="500" placeholder="Separate skills with commas. Include tools, methods, and domain knowledge."></textarea>
+            </label>
+            <label class="wide">
+              Current work authorisation (optional)
+              <input name="workAuthorisation" maxlength="180" placeholder="e.g. Eligible to work in the UK until June 2028">
+            </label>
+            <fieldset class="wide compact-fieldset">
+              <legend>Would you need employer sponsorship for your target roles?</legend>
+              <label><input type="radio" name="needsSponsorship" value="yes"> Yes</label>
+              <label><input type="radio" name="needsSponsorship" value="no"> No</label>
+              <label><input type="radio" name="needsSponsorship" value="unsure" checked> Unsure / prefer to check</label>
+            </fieldset>
+          </form>
+        </div>
+
+        <div class="panel role-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">A role or lead</p>
+              <h2>What are you considering?</h2>
+            </div>
+            <button id="load-sample" class="text-button" type="button">Try an example</button>
+          </div>
+          <form id="role-form" class="form-grid" autocomplete="off">
+            <label>
+              Role title
+              <input name="title" maxlength="140" placeholder="e.g. Junior Data Analyst">
+            </label>
+            <label>
+              Organisation
+              <input name="company" maxlength="140" placeholder="e.g. Northstar Labs">
+            </label>
+            <label class="wide">
+              Posting or lead URL
+              <input name="url" type="url" maxlength="500" placeholder="https://…">
+            </label>
+            <label>
+              Where did you find it?
+              <select name="sourceType">
+                <option value="job_board">Job board / employer site</option>
+                <option value="university">University or careers service</option>
+                <option value="community">Community or alumni lead</option>
+                <option value="social">Social post</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="checkbox-label align-end"><input name="verifiedOfficial" type="checkbox"> I have verified the official application route</label>
+            <label class="wide">
+              Paste the job description or the lead text
+              <textarea name="description" rows="12" maxlength="15000" placeholder="Paste what the employer actually says. A social post is fine too — it will be treated as a lead until an official route is verified."></textarea>
+            </label>
+          </form>
+        </div>
+
+        <aside class="panel results-panel" aria-live="polite" aria-atomic="false">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Your decision brief</p>
+              <h2 id="result-title">Add a role to begin</h2>
+            </div>
+          </div>
+          <p id="empty-result" class="empty-state">This workspace will show evidence, not a mysterious score. Start by pasting the text of a job or lead.</p>
+          <div id="result-content" hidden>
+            <div class="decision-grid">
+              <article class="decision-card" id="eligibility-card">
+                <p class="card-label">Eligibility</p>
+                <p class="decision-value" id="eligibility-state"></p>
+                <ul id="eligibility-list" class="evidence-list"></ul>
+              </article>
+              <article class="decision-card">
+                <p class="card-label">Evidence overlap</p>
+                <p class="decision-value" id="fit-state"></p>
+                <ul id="fit-list" class="evidence-list"></ul>
+              </article>
+              <article class="decision-card">
+                <p class="card-label">Application attention</p>
+                <p class="decision-value" id="attention-state"></p>
+                <ul id="attention-list" class="evidence-list"></ul>
+              </article>
+              <article class="decision-card">
+                <p class="card-label">Known effort</p>
+                <p class="decision-value" id="effort-state"></p>
+                <ul id="effort-list" class="evidence-list"></ul>
+              </article>
+            </div>
+            <article class="source-card">
+              <div>
+                <p class="card-label">Source confidence</p>
+                <p id="source-state" class="source-value"></p>
+              </div>
+              <p id="source-help" class="muted"></p>
+            </article>
+            <div class="actions">
+              <button id="save-role" class="primary-button" type="button">Save to tracker</button>
+              <button id="show-estimate-controls" class="secondary-button" type="button" aria-expanded="false">Fine-tune the effort estimate</button>
+              <button id="read-with-ai" class="secondary-button" type="button" hidden>Read with AI</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="estimate-controls" class="panel estimate-panel" hidden aria-labelledby="estimate-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Correct what the posting says</p>
+            <h2 id="estimate-heading">Fine-tune the practical details</h2>
+          </div>
+          <button id="close-estimate-controls" class="text-button" type="button">Close</button>
+        </div>
+        <p class="muted">These values affect the preview immediately. They are saved only in your browser with this role draft.</p>
+        <form id="estimate-form" class="form-grid estimate-grid">
+          <label>
+            Posting age (hours)
+            <input name="postedHoursAgo" type="number" min="0" max="8760" placeholder="e.g. 36">
+          </label>
+          <label>
+            Visible count
+            <input name="visibleCount" type="number" min="0" max="1000000" placeholder="e.g. 24">
+          </label>
+          <label>
+            What does that count mean?
+            <select name="visibleKind">
+              <option value="unknown">The source does not say</option>
+              <option value="completed_applications">Completed applications</option>
+              <option value="apply_clicks">Apply clicks / starts</option>
+            </select>
+          </label>
+          <label>
+            Workplace type
+            <select name="workplaceType">
+              <option value="unknown">Not clear</option>
+              <option value="on_site">On-site</option>
+              <option value="hybrid">Hybrid</option>
+              <option value="remote">Remote</option>
+            </select>
+          </label>
+          <label>
+            Employer reach
+            <select name="employerReach">
+              <option value="unknown">Not clear</option>
+              <option value="local">Local</option>
+              <option value="regional">Regional</option>
+              <option value="national">National</option>
+              <option value="global">Global</option>
+            </select>
+          </label>
+          <label>
+            Role family
+            <select name="roleSupply">
+              <option value="unknown">Not clear</option>
+              <option value="niche">Niche / specialised</option>
+              <option value="typical">Typical</option>
+              <option value="broad">Broad / widely searched</option>
+            </select>
+          </label>
+          <label class="checkbox-label align-end"><input name="oneClickApply" type="checkbox"> One-click or simplified application</label>
+          <label class="checkbox-label"><input name="accountRequired" type="checkbox"> Account required</label>
+          <label>
+            Visible required fields
+            <input name="fieldCount" type="number" min="0" max="250" value="0">
+          </label>
+          <label>
+            Required file uploads
+            <input name="fileUploads" type="number" min="0" max="25" value="0">
+          </label>
+          <label>
+            Extra written response
+            <select name="extraQuestionLength">
+              <option value="none">None known</option>
+              <option value="short">Short</option>
+              <option value="medium">Medium</option>
+              <option value="long">Long</option>
+            </select>
+          </label>
+          <fieldset class="wide compact-fieldset">
+            <legend>Documents confirmed by the form or posting</legend>
+            <label><input name="resume" type="checkbox"> Résumé / CV</label>
+            <label><input name="coverLetter" type="checkbox"> Cover letter</label>
+            <label><input name="portfolio" type="checkbox"> Portfolio / work link</label>
+            <label><input name="references" type="checkbox"> References</label>
+            <label><input name="workSample" type="checkbox"> Work sample</label>
+          </fieldset>
+          <fieldset class="wide compact-fieldset">
+            <legend>Process explicitly mentioned by the employer</legend>
+            <label><input name="assessment" type="checkbox"> Assessment</label>
+            <label><input name="takeHome" type="checkbox"> Take-home / case study</label>
+            <label><input name="presentation" type="checkbox"> Presentation</label>
+            <label><input name="interview" type="checkbox"> Interview(s)</label>
+          </fieldset>
+        </form>
+      </section>
+
+      <section id="tracker" class="tracker-section" aria-labelledby="tracker-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Keep your bearings</p>
+            <h2 id="tracker-heading">Your local application tracker</h2>
+          </div>
+          <div class="tracker-actions">
+            <button id="export-data" class="secondary-button" type="button">Export my data</button>
+            <button id="clear-data" class="text-button danger" type="button">Clear local data</button>
+          </div>
+        </div>
+        <p id="tracker-empty" class="empty-state">Saved roles will stay here on this device. Nothing is sent to a server.</p>
+        <div id="tracker-list" class="tracker-list"></div>
+      </section>
+
+      <section id="privacy" class="privacy-section" aria-labelledby="privacy-heading">
+        <p class="eyebrow">Privacy by default</p>
+        <h2 id="privacy-heading">Your job search is personal.</h2>
+        <div class="privacy-grid">
+          <p><strong>This preview stores your profile, role drafts, and tracker in this browser only.</strong> Export a copy whenever you wish, or clear it with one button.</p>
+          <p><strong>It does not log in to job boards, submit applications, or send messages.</strong> Social posts are treated as leads until you verify an official route.</p>
+          <p><strong>It gives a reading of the posting, not immigration or employment advice.</strong> Where a requirement is unclear, it says so.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>Built to help people make fewer, better job-search decisions.</footer>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
